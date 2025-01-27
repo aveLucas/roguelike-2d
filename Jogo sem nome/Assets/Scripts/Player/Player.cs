@@ -6,20 +6,30 @@ using UnityEngine.CrashReportHandler;
 using UnityEngine.TextCore.Text;
 using UnityEngine.Events;
 
-public class Player_Controller : MonoBehaviour
+public class Player : MonoBehaviour
 {
-    //Variables
-    [Header("-Floats-")]
+    [Header("-PlayerFloats-")]
     public float Speed;
     public float JumpF;
     private float Hmovement;
     public float gravityScale;
-    [Header("-Bools-")] 
+
+    [Header("-PlayerBools-")]
+    public bool isAlive;
     private bool FacingRight;
-    
     public bool Crouching;
     public bool isGrounded;
     public bool onWall;
+
+    [Header("-HealthBar-")]
+    [SerializeField] private HealthBar HealthBarPrefab;
+    private HealthBar healthBar;
+    private float maxHealth = 100f;
+    private float currentHealth;
+
+
+    [Header("-References-")]
+    public RangedAttack rangedAttack;
     Rigidbody2D rigidB;
     Animator anime;
     public Collider2D standingC;
@@ -28,6 +38,14 @@ public class Player_Controller : MonoBehaviour
 
     void Start()
     {
+        
+        currentHealth = maxHealth;
+
+        // Instanciar barra de vida
+        healthBar = Instantiate(HealthBarPrefab, transform.position + new Vector3(-340, 210, 0), Quaternion.identity);
+        healthBar.transform.SetParent(GameObject.Find("PlayerUI").transform, false);
+        healthBar.Initialize(maxHealth);
+
         rigidB = GetComponent<Rigidbody2D>();
         anime = GetComponent<Animator>();
         
@@ -37,12 +55,19 @@ public class Player_Controller : MonoBehaviour
     
     void Update()
     {
+        IsAliveVerification();
+
         Movement();
         Jump();
-        Flip();
         Crouch();
+
+        Flip();
+        
+        TestDmg();
+        testAttack();
     }
 
+    //Movimentação
     void Movement()
     {
         Hmovement = Input.GetAxisRaw("Horizontal");
@@ -65,18 +90,6 @@ public class Player_Controller : MonoBehaviour
         
     }
 
-
-
-    void Flip()
-    {
-        if(FacingRight && Hmovement > 0 || !FacingRight && Hmovement < 0){
-            FacingRight = !FacingRight;
-            Vector3 ls = transform.localScale;
-            ls.x *= -1;
-            transform.localScale = ls;
-        }
-    }
-
     void Crouch()
     {
         if(Input.GetKeyDown(KeyCode.LeftShift) && isGrounded)
@@ -95,8 +108,60 @@ public class Player_Controller : MonoBehaviour
         }
     }
 
-    
+    //Funções
+    void Flip()
+    {
+        if(FacingRight && Hmovement > 0 || !FacingRight && Hmovement < 0){
+            FacingRight = !FacingRight;
+            Vector3 ls = transform.localScale;
+            ls.x *= -1;
+            transform.localScale = ls;
+        }
+    }
 
+    void TestDmg()
+    {
+        
+            if(Input.GetKeyDown(KeyCode.E))
+            {
+                if(isAlive)
+                {
+                    TakeDamage(10);
+                }
+            }
+
+    }
+    void IsAliveVerification()
+    {
+        if(currentHealth > 0)
+        {
+            isAlive = true;
+            //Debug.Log($"{currentHealth}");
+        }
+    }
+
+    public void TakeDamage(float damage)
+    {
+        currentHealth -= damage;
+        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+        healthBar.UpdateHealth(currentHealth);
+
+        if (currentHealth <= 0)
+        {
+            isAlive = false;
+            Debug.Log("Personagem morreu!");
+        }
+    }
+
+    void testAttack()
+    {
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            rangedAttack.Fire();
+        }
+    }
+
+    //Colisões
     void OnCollisionEnter2D(Collision2D collision)
     {
         if(collision.gameObject.layer == 3){

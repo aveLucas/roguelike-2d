@@ -16,20 +16,22 @@ public class Player : MonoBehaviour
 
     [Header("-PlayerBools-")]
     public bool isAlive;
+    public bool isOnHealArea;
     private bool FacingRight;
     public bool Crouching;
     public bool isGrounded;
     public bool onWall;
 
     [Header("-HealthBar-")]
-    [SerializeField] private HealthBar HealthBarPrefab;
-    private HealthBar healthBar;
+    [SerializeField] private StatusBar HealthBarPrefab;
+    private StatusBar healthBar;
     private float maxHealth = 100f;
     private float currentHealth;
 
 
     [Header("-References-")]
-    public RangedAttack rangedAttack;
+    public BulletType rangedAttack;
+    public HealingArea healSpell;
     Rigidbody2D rigidB;
     Animator anime;
     public Collider2D standingC;
@@ -42,7 +44,7 @@ public class Player : MonoBehaviour
         currentHealth = maxHealth;
 
         // Instanciar barra de vida
-        healthBar = Instantiate(HealthBarPrefab, transform.position + new Vector3(-340, 210, 0), Quaternion.identity);
+        healthBar = Instantiate(HealthBarPrefab, transform.position + new Vector3(155, -32, 0), Quaternion.identity);
         healthBar.transform.SetParent(GameObject.Find("PlayerUI").transform, false);
         healthBar.Initialize(maxHealth);
 
@@ -65,6 +67,7 @@ public class Player : MonoBehaviour
         
         TestDmg();
         testAttack();
+        CastHeal();
     }
 
     //Movimentação
@@ -161,6 +164,14 @@ public class Player : MonoBehaviour
         }
     }
 
+    void CastHeal()
+    {
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            healSpell.Cast();
+        }
+    }
+
     //Colisões
     void OnCollisionEnter2D(Collision2D collision)
     {
@@ -180,5 +191,20 @@ public class Player : MonoBehaviour
             onWall = false;
         }
     }
-    
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if(other.gameObject.tag == "HealingArea")
+        {
+            isOnHealArea = true;
+            while(isOnHealArea && currentHealth < maxHealth)
+            {
+                currentHealth += healSpell.healingValue;
+                currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+                healthBar.UpdateHealth(currentHealth);
+                
+                Debug.Log($"heal: {healSpell.healingValue}");
+            }
+            
+        }
+    }
 }

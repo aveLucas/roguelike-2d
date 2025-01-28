@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class Target : MonoBehaviour
 {
-    [SerializeField] private RangedAttack slashPrefab;
+    [SerializeField] private BulletType slashPrefab;
 
     [Header("-HealthBar-")]
-    [SerializeField] private HealthBar HealthBarPrefab;
-    private HealthBar healthBar;
-    private float maxHealth = 100f;
+    [SerializeField] private EnemyHealthBar HealthBarPrefab;
+    private EnemyHealthBar healthBar;
+    private float  maxHealth = 100f;
     private float currentHealth;
 
     
@@ -18,8 +18,8 @@ public class Target : MonoBehaviour
         currentHealth = maxHealth;
 
         // Instanciar barra de vida
-        healthBar = Instantiate(HealthBarPrefab, transform.position + new Vector3(0, 2, 0), Quaternion.identity);
-        healthBar.transform.SetParent(GameObject.Find("PlayerUI").transform, false);
+        healthBar = Instantiate(HealthBarPrefab, transform.position + new Vector3(0, 0, 0), Quaternion.identity);
+        healthBar.transform.SetParent(GameObject.Find("DummyCanvas").transform, false);
         healthBar.Initialize(maxHealth);
     }
 
@@ -41,7 +41,7 @@ public class Target : MonoBehaviour
 
         if (currentHealth <= 0)
         {
-            Destroy(healthBar.gameObject);
+            
             Destroy(gameObject);
             
             Debug.Log("Personagem morreu!");

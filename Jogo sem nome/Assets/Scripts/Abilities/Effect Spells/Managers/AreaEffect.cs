@@ -5,15 +5,17 @@ using UnityEngine;
 public class AreaEffect : MonoBehaviour
 {
     
-    [SerializeField] private float maxDuration;
-    [SerializeField] private float activeDuration;
+    [SerializeField] private float maxDuration = 5f;
 
     private void Update()
     {
-        for (activeDuration = 0; activeDuration < maxDuration; activeDuration++)
-        {
-            
-            //Destroy(gameObject);
-        }
+            StartCoroutine("Duration");
+       
+    }
+
+    IEnumerator Duration()
+    {
+        yield return new WaitForSeconds( maxDuration );
+        Destroy(gameObject);
     }
 }

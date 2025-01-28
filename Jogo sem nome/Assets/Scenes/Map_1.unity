@@ -1628,6 +1628,7 @@ GameObject:
   - component: {fileID: 899817684}
   - component: {fileID: 899817683}
   - component: {fileID: 899817682}
+  - component: {fileID: 899817686}
   m_Layer: 0
   m_Name: Dummy
   m_TagString: Enemy
@@ -1692,8 +1693,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 895c92ea909a538499094e91e582c26b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slashPrefab: {fileID: 1771421873734299675, guid: 3d724c869417dcb4ebcf24b29a7bc2dc, type: 3}
-  HealthBarPrefab: {fileID: -3867733554266648356, guid: 9140130053c03944090ebcfd6ad2d908, type: 3}
 --- !u!212 &899817684
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1762,6 +1761,19 @@ Transform:
   - {fileID: 2047202139}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &899817686
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 899817681}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46818fe59cd2618488ce73efb6335895, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HealthBarPrefab: {fileID: -3867733554266648356, guid: 9140130053c03944090ebcfd6ad2d908, type: 3}
 --- !u!1 &1858398834
 GameObject:
   m_ObjectHideFlags: 0
@@ -1849,8 +1861,8 @@ Canvas:
   m_GameObject: {fileID: 1858398834}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
-  m_Camera: {fileID: 0}
+  m_RenderMode: 1
+  m_Camera: {fileID: 519420031}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
@@ -2299,12 +2311,15 @@ GameObject:
   m_Component:
   - component: {fileID: 2078766736}
   - component: {fileID: 2078766735}
-  - component: {fileID: 2078766734}
-  - component: {fileID: 2078766733}
-  - component: {fileID: 2078766738}
   - component: {fileID: 2078766732}
+  - component: {fileID: 2078766739}
+  - component: {fileID: 2078766740}
+  - component: {fileID: 2078766741}
+  - component: {fileID: 2078766734}
+  - component: {fileID: 2078766738}
+  - component: {fileID: 2078766733}
   - component: {fileID: 2078766737}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -2323,18 +2338,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f538e1c3fd5b94f4b8190f3790bec7e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Speed: 10
-  JumpF: 10
-  gravityScale: 0
   isAlive: 0
-  Crouching: 0
-  isGrounded: 0
-  onWall: 0
   HealthBarPrefab: {fileID: 8922237530310049955, guid: 6477b2f666e72d040bb717b22f357aa2, type: 3}
-  rangedAttack: {fileID: 1771421873734299675, guid: 3d724c869417dcb4ebcf24b29a7bc2dc, type: 3}
-  healSpell: {fileID: 2589399657456728163, guid: ac3b81cdad4b7a74f8785dce5836cbc2, type: 3}
-  standingC: {fileID: 2078766734}
-  crouchingC: {fileID: 2078766738}
+  healthBar: {fileID: 0}
+  maxHealth: 100
+  currentHealth: 0
 --- !u!50 &2078766733
 Rigidbody2D:
   serializedVersion: 4
@@ -2445,8 +2453,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -991645987
+  m_SortingLayer: 2
   m_SortingOrder: 1
   m_Sprite: {fileID: -21086046, guid: 30839c70e2412d14ea71708b3258b9df, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -2540,13 +2548,59 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.7486763, y: 0.3420291}
   m_EdgeRadius: 0
+--- !u!114 &2078766739
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2078766731}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 198d0686ba411ea4bb984f0297ce5e3c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Speed: 10
+  JumpF: 10
+  gravityScale: 1
+  Crouching: 0
+--- !u!114 &2078766740
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2078766731}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1add8c1ee69d0544c88d7256a0305f44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isGrounded: 0
+  onWall: 0
+  standingC: {fileID: 2078766734}
+  crouchingC: {fileID: 2078766738}
+--- !u!114 &2078766741
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2078766731}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 517e3f383d31dea4f93633737b5ca80f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rangedAttack: {fileID: 1771421873734299675, guid: 3d724c869417dcb4ebcf24b29a7bc2dc, type: 3}
+  healSpell: {fileID: 2589399657456728163, guid: ac3b81cdad4b7a74f8785dce5836cbc2, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 606153610}
   - {fileID: 519420032}
   - {fileID: 2078766736}
   - {fileID: 516204448}
   - {fileID: 152627325}
-  - {fileID: 606153610}
   - {fileID: 899817685}

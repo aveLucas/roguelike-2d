@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7722832276669926847}
   - component: {fileID: 5347775983017550808}
   - component: {fileID: 2874523480311034048}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Slash
   m_TagString: Attack
   m_Icon: {fileID: 0}

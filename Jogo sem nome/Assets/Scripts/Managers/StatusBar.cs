@@ -5,16 +5,22 @@ using UnityEngine.UI;
 
 public class StatusBar : MonoBehaviour
 {
-    [SerializeField] private Slider statusSlider;
+    //[SerializeField] private Slider statusSlider;
+    [SerializeField] private Image statusImage;
 
     public void Initialize(float maxValue)
     {
-        statusSlider.maxValue = maxValue;
-        statusSlider.value = maxValue;
+        statusImage.fillAmount = maxValue;
+        //statusSlider.maxValue = maxValue;
+        //statusSlider.value = maxValue;
     }
 
     public void UpdateHealth(float currentValue)
     {
-        statusSlider.value = currentValue;
+        statusImage.fillAmount = currentValue / 100;
+        //statusSlider.value = currentValue;
+
     }
+
+  
 }

@@ -17,5 +17,21 @@ public class BulletType : MonoBehaviour
         // Instancia o projétil no ponto de origem
         GameObject projectile = Instantiate(projectilePrefab, firePoint.position, firePoint.rotation);
     }
+    public void DealDamage(GameObject target)
+    {
+        var tar = target.GetComponent<NPCStatus>();
+        if (tar != null)
+        {
+            tar.TakeDamage(damage);
+        }
+    }
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+
+        Debug.Log($"Colidiu com: {other}");
+        DealDamage(other.gameObject);
+        Destroy(gameObject);
+
+    }
 }
     

@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class NPCStatus : MonoBehaviour
 {
+    private Dissolve dissolve;
+
     [Header("-HealthBar-")]
     [SerializeField] private NPCHealthBar HealthBarPrefab;
     private NPCHealthBar healthBar;
@@ -13,6 +16,8 @@ public class NPCStatus : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        dissolve = GetComponent<Dissolve>();
+
         currentHealth = maxHealth;
 
         // Instanciar barra de vida
@@ -34,8 +39,9 @@ public class NPCStatus : MonoBehaviour
 
         if (currentHealth <= 0)
         {
-
-            Destroy(gameObject);
+            Destroy(healthBar.gameObject);
+            StartCoroutine(dissolve.Vanish());
+            
 
             Debug.Log("Personagem morreu!");
         }

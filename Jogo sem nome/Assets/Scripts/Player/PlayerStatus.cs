@@ -15,19 +15,29 @@ public class PlayerStatus : MonoBehaviour
 
     [Header("-HealthBar-")]
     [SerializeField] private StatusBar HealthBarPrefab;
-    public StatusBar healthBar;
+    public StatusBar healthBar; 
     public float maxHealth = 100f;
     public float currentHealth;
 
+    [Header("-ManaBar-")]
+    [SerializeField] private StatusBar ManaBarPrefab;
+    public StatusBar manaBar;
+    public float maxMana = 100f;
+    public float currentMana;
+
     void Start()
     {
-        
-        currentHealth = maxHealth;
-
         // Instanciar barra de vida
+        currentHealth = maxHealth;
         healthBar = Instantiate(HealthBarPrefab, transform.position + new Vector3(215, -50, 0), Quaternion.identity);
         healthBar.transform.SetParent(GameObject.Find("PlayerUI").transform, false);
         healthBar.Initialize(maxHealth);
+
+        //Instanciar barra de mana
+        currentMana = maxMana;
+        manaBar = Instantiate(ManaBarPrefab, transform.position + new Vector3(215, -136, 0), Quaternion.identity);
+        manaBar.transform.SetParent(GameObject.Find("PlayerUI").transform, false);
+        manaBar.Initialize(maxMana);
 
     }
 
@@ -51,7 +61,7 @@ public class PlayerStatus : MonoBehaviour
     {
         currentHealth -= damageAmount;
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
-        healthBar.UpdateHealth(currentHealth);
+        healthBar.UpdateStatus(currentHealth);
 
         if (currentHealth <= 0)
         {

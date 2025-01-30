@@ -173,3 +173,4 @@ MonoBehaviour:
   spellPrefab: {fileID: 7745802128268532}
   castPosition: {fileID: 0}
   healingValue: 5
+  manaCost: 20

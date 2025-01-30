@@ -10,13 +10,22 @@ public class HealingArea : MonoBehaviour
     public GameObject spellPrefab;
     [SerializeField] private Transform castPosition;
     public float healingValue = 5f;
+    public float manaCost;
     
 
     public void Cast()
     {
+        
         player = FindObjectOfType<PlayerStatus>();
-        castPosition = player.transform;
-        GameObject spell = Instantiate(spellPrefab, castPosition.position, castPosition.rotation);
+        if (player.currentMana >= manaCost)
+        {
+            player.currentMana -= manaCost;
+            player.manaBar.UpdateStatus(player.currentMana);
+            
+            castPosition = player.transform;
+            GameObject spell = Instantiate(spellPrefab, castPosition.position, castPosition.rotation);
+        }
+        
     }
 
     private void OnTriggerStay2D(Collider2D other)
@@ -32,7 +41,7 @@ public class HealingArea : MonoBehaviour
         {
 
             player.currentHealth = Mathf.Min(player.currentHealth + healingValue, player.maxHealth);
-            player.healthBar.UpdateHealth(player.currentHealth);
+            player.healthBar.UpdateStatus(player.currentHealth);
 
             yield return new WaitForSeconds(seconds);
                 

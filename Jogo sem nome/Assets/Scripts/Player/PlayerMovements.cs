@@ -13,7 +13,7 @@ public class PlayerMovements : MonoBehaviour
     public float gravityScale;
 
     [Header("-PlayerBools-")]
-    private bool FacingRight;
+    public static bool FacingRight;
     public bool Crouching;
 
 
@@ -61,6 +61,7 @@ public class PlayerMovements : MonoBehaviour
         Hmovement = Input.GetAxisRaw("Horizontal");
         transform.position += new Vector3(Hmovement, 0, 0) * Speed * Time.deltaTime;
         anime.SetFloat("Walk", Math.Abs(Hmovement));
+        
 
     }
 

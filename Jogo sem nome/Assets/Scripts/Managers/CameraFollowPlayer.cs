@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Camera : MonoBehaviour
+public class CameraFollowPlayer : MonoBehaviour
 {
     private GameObject Player;
     public float smoothSpeed;

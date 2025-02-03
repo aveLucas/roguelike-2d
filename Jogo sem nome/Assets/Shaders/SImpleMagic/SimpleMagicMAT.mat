@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: DissolveMAT
-  m_Shader: {fileID: -6465566751694194690, guid: 394f11dffed1025478dfbdbe02f1ced8, type: 3}
+  m_Name: SimpleMagicMAT
+  m_Shader: {fileID: -6465566751694194690, guid: abab494128de4d2468d9a5ae932b75ec, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -24,7 +24,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _MainTex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: d0a90b74ad61b154d992d36ea2b5157f, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -42,12 +42,13 @@ Material:
     m_Ints: []
     m_Floats:
     - _DissolveAmount: 0
-    - _DissolveScale: 30
-    - _OutlineThickness: 0.1
+    - _DissolveScale: 50
+    - _EmissionMultiplier: 4.4
+    - _OutlineThickness: 0
     m_Colors:
-    - _OutlineColor: {r: 0.6792453, g: 0, b: 0, a: 1}
+    - _OutlineColor: {r: 0.7490197, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []
---- !u!114 &2664708969124884284
+--- !u!114 &8379676337117318926
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}

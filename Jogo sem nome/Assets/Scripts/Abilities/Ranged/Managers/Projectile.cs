@@ -7,6 +7,7 @@ public class Projectile : MonoBehaviour
     public float speed;       // Velocidade do projétil
     public float maxDistance = 15f; // Distância máxima que o projétil pode percorrer
     private Vector3 startPosition;  // Posição inicial do projétil
+    private Vector3 direction;
 
     private void Start()
     {
@@ -14,12 +15,21 @@ public class Projectile : MonoBehaviour
         startPosition = transform.position;
     }
 
+    public void SetDirection(Vector3 dir)
+    {
+        direction = dir.normalized;
+
+        // Calcula o ângulo para rotacionar o sprite corretamente
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.Euler(0, 0, angle);
+    }
+
     private void Update()
     {
 
         // Move o projétil na direção em que está apontado
         
-        transform.position += new Vector3(1, 0, 0) * speed * Time.deltaTime;
+        transform.position += direction * speed * Time.deltaTime;
 
         // Calcula a distância percorrida
         float traveledDistance = Vector3.Distance(startPosition, transform.position);

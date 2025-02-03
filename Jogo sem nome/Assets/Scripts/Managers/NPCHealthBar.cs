@@ -5,13 +5,12 @@ using UnityEngine.UI;
 public class NPCHealthBar : MonoBehaviour
 {
     [SerializeField] private Slider healthSlider;
-    [SerializeField] private Camera camera;
     [SerializeField] private GameObject target;
     [SerializeField] private Vector3 offSet;
 
     private void Awake()
     {
-        camera = FindObjectOfType<Camera>();
+        
         target = GameObject.FindGameObjectWithTag("Enemy");
     }
     public void Initialize(float maxHealth)
@@ -27,7 +26,7 @@ public class NPCHealthBar : MonoBehaviour
 
     public void Update()
     {
-        transform.rotation = camera.transform.rotation;
+        transform.rotation = Camera.main.transform.rotation;
         transform.position = target.transform.position + offSet;
     }
 }

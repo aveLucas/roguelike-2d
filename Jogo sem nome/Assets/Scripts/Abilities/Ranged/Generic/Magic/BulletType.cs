@@ -7,7 +7,7 @@ public class BulletType : MonoBehaviour
     public GameObject playerPos;
     public PlayerStatus player;
     public GameObject projectilePrefab;
-
+    
     public float damage;
     public float manaCost;
     public Transform firePoint;         // Ponto de origem do projétil
@@ -15,8 +15,9 @@ public class BulletType : MonoBehaviour
     
     public void Fire()
     {
-
+        
         player = FindObjectOfType<PlayerStatus>();
+
         if (player.currentMana >= manaCost) 
         {
             
@@ -24,13 +25,24 @@ public class BulletType : MonoBehaviour
             player.manaBar.UpdateStatus(player.currentMana);
             playerPos = GameObject.Find("Player");
             firePoint = playerPos.transform;
-            // Instancia o projétil no ponto de origem
-            GameObject projectile = Instantiate(projectilePrefab, firePoint.position, firePoint.rotation);
-            
-        }
 
-        
+            
+            // Obtém a posição do mouse no mundo 2D
+            Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            mousePosition.z = 0f; // Garante que fique no mesmo plano
+
+            // Calcula a direção do disparo
+            Vector3 shootDirection = (mousePosition - firePoint.position).normalized;
+
+            // Instancia o projétil
+            GameObject projectile = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity);
+
+            // Define a direção do projétil
+            projectile.GetComponent<Projectile>().SetDirection(shootDirection);
+
+        }
     }
+
     public void DealDamage(GameObject target)
     {
         var tar = target.GetComponent<NPCStatus>();

@@ -10,9 +10,11 @@ public class Dissolve : MonoBehaviour
     public Material _material;
 
     private int _dissolveAmount = Shader.PropertyToID("_DissolveAmount");
+
+    public Coroutine _dissolveCoroutine;
     
 
-    void Start()
+    void Awake()
     {
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _material.SetFloat(_dissolveAmount, 0f);
@@ -25,8 +27,13 @@ public class Dissolve : MonoBehaviour
             StartCoroutine(Vanish());
         }
     }
+    public void CallDissolve()
+    {
+        _dissolveCoroutine = StartCoroutine(Vanish());
+    }
     public IEnumerator Vanish()
     {
+        
         float elapsedTime = 0f;
         while (elapsedTime < _dissolveTime)
         {   

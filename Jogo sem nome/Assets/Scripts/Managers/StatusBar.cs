@@ -12,7 +12,7 @@ public class StatusBar : MonoBehaviour
     [SerializeField] private float trailDelay = 0.4f;
     //[SerializeField] private Image statusImage;
     public Gradient gradient;
-    public Image ?gradientImage;
+    public Image gradientImage;
     [SerializeField] private TMP_Text valueText;
     private  float maxValueText;
     

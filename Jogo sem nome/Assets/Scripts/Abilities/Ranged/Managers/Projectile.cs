@@ -8,6 +8,7 @@ public class Projectile : MonoBehaviour
     public float maxDistance = 15f; // Distância máxima que o projétil pode percorrer
     private Vector3 startPosition;  // Posição inicial do projétil
     private Vector3 direction;
+    public bool canMove;
 
     private void Start()
     {
@@ -24,21 +25,29 @@ public class Projectile : MonoBehaviour
         transform.rotation = Quaternion.Euler(0, 0, angle);
     }
 
-    private void Update()
+    public void MoveProjectile()
     {
-
-        // Move o projétil na direção em que está apontado
-        
-        transform.position += direction * speed * Time.deltaTime;
+        if(canMove ==  true)
+        {
+            transform.position += direction * speed * Time.deltaTime;
 
         // Calcula a distância percorrida
         float traveledDistance = Vector3.Distance(startPosition, transform.position);
         Debug.Log($"{traveledDistance}");
-        
+
         if (traveledDistance >= maxDistance)
         {
             Destroy(gameObject);
         }
+        }
+        
+    }
+    private void Update()
+    {
+
+        // Move o projétil na direção em que está apontado
+        MoveProjectile();
+        
     }
 
     

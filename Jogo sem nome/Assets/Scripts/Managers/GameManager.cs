@@ -23,7 +23,7 @@ public class GameManager : MonoBehaviour
 
     public void SpawnDummy()
     {
-        if(NPCStatus.isAlive == false && Input.GetKeyDown(KeyCode.P)) 
+        if(NPCStatus.isAlive == false && Input.GetKeyDown(KeyCode.T)) 
         {
             Instantiate(dummyPrefab, spawnPosition.position, spawnPosition.rotation);
         }

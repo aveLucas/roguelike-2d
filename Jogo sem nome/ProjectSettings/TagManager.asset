@@ -50,12 +50,21 @@ TagManager:
   - name: Background
     uniqueID: 2766665425
     locked: 0
-  - name: Spell
-    uniqueID: 2222811081
-    locked: 0
   - name: Player
     uniqueID: 3303321309
     locked: 0
   - name: Enemy
     uniqueID: 3592566271
+    locked: 0
+  - name: Ground
+    uniqueID: 1151479547
+    locked: 0
+  - name: Wall
+    uniqueID: 1383323717
+    locked: 0
+  - name: UI
+    uniqueID: 1541265821
+    locked: 0
+  - name: Spell
+    uniqueID: 2222811081
     locked: 0

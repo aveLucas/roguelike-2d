@@ -25,7 +25,7 @@ public class StatusBar : MonoBehaviour
         statusSlider.maxValue = maxValue;
         statusSlider.value = maxValue;
 
-        trailBar.fillAmount = maxValue;
+        //trailBar.fillAmount = maxValue;
         
 
         if(gradientImage != null)
@@ -41,11 +41,11 @@ public class StatusBar : MonoBehaviour
         statusSlider.value = currentValue;
 
         //StartCoroutine(TrailBar());
-        Sequence sequence = DOTween.Sequence();
+        //Sequence sequence = DOTween.Sequence();
 
-        sequence.AppendInterval(trailDelay);
-        sequence.Append(trailBar.DOFillAmount(statusSlider.normalizedValue, 0.3f))
-            .SetEase(Ease.InOutSine);
+        //sequence.AppendInterval(trailDelay);
+        //sequence.Append(trailBar.DOFillAmount(statusSlider.normalizedValue, 0.3f))
+        //    .SetEase(Ease.InOutSine);
         
 
         if(gradientImage != null)

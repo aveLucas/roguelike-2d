@@ -29,14 +29,14 @@ public class PlayerStatus : MonoBehaviour
     {
         // Instanciar barra de vida
         currentHealth = maxHealth;
-        healthBar = Instantiate(HealthBarPrefab, transform.position + new Vector3(215, -50, 0), Quaternion.identity);
-        healthBar.transform.SetParent(GameObject.Find("PlayerUI").transform, false);
+        //healthBar = Instantiate(HealthBarPrefab, transform.position + new Vector3(215, -50, 0), Quaternion.identity);
+        //healthBar.transform.SetParent(GameObject.Find("PlayerUI").transform, false);
         healthBar.Initialize(maxHealth);
 
         //Instanciar barra de mana
         currentMana = maxMana;
-        manaBar = Instantiate(ManaBarPrefab, transform.position + new Vector3(215, -136, 0), Quaternion.identity);
-        manaBar.transform.SetParent(GameObject.Find("PlayerUI").transform, false);
+        //manaBar = Instantiate(ManaBarPrefab, transform.position + new Vector3(215, -136, 0), Quaternion.identity);
+        //manaBar.transform.SetParent(GameObject.Find("PlayerUI").transform, false);
         manaBar.Initialize(maxMana);
 
     }

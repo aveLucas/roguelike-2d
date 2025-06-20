@@ -10,14 +10,22 @@ public class PlayerMeleeCombat : MonoBehaviour
     public float attackRange;
     public LayerMask enemyLayer;
 
+    public bool canAttack = true;
+
     public float baseDamage = 10f;
     public float cooldownTime = 0.5f;
     public float cooldownTimer = 0f;
 
+    public InventoryManager inventoryManager;
+
+    public GameObject weaponObj;
 
     void Start()
     {
         animator = GetComponent<Animator>();
+        inventoryManager = GameObject.FindAnyObjectByType<InventoryManager>();
+
+
     }
 
     // Update is called once per frame
@@ -25,7 +33,7 @@ public class PlayerMeleeCombat : MonoBehaviour
     {
         //if (cooldownTimer <= 0)
         //{
-            if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && canAttack)
             {
                 Attack();
             }
@@ -37,19 +45,36 @@ public class PlayerMeleeCombat : MonoBehaviour
         //}
     }
 
+
     void Attack()
     {
-        
+        Weapon equipedWeapon = inventoryManager.GetEquipedWeapon(true);
         animator.SetTrigger("Attack");
 
         Collider2D[] enemiesInRange = Physics2D.OverlapCircleAll(attackOrigin.position, attackRange, enemyLayer);
         //Collider2D[] enemiesInLine = Physics2D.OverlapAreaAll(attackOrigin.position, attackEnd.position, enemyLayer);
-
-        foreach (var enemy in enemiesInRange)
+        if (equipedWeapon != null)
         {
-            enemy.GetComponent<NPCStatus>().TakeDamage(baseDamage);
+            Debug.Log($"Item usado: {equipedWeapon.name}");
+            SpriteRenderer weaponSr = weaponObj.GetComponent<SpriteRenderer>();
+            weaponSr.sprite = equipedWeapon.image;
+            foreach (var enemy in enemiesInRange)
+            {
+
+                enemy.GetComponent<NPCStatus>().TakeDamage(baseDamage + equipedWeapon.damage);  
+            }
         }
-       
+        else
+        {
+            SpriteRenderer weaponSr = weaponObj.GetComponent<SpriteRenderer>();
+            weaponSr.sprite = null;
+            foreach (var enemy in enemiesInRange)
+            {
+
+                enemy.GetComponent<NPCStatus>().TakeDamage(baseDamage);
+            }
+            
+        }
 
     }
 

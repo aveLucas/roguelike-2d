@@ -6,6 +6,7 @@ public class InventoryManager : MonoBehaviour
 {
     public int maxStackedItems = 4;
     public InventorySlot[] inventorySlots;
+    public InventorySlot[] weaponSlots;
     public GameObject inventoryItemPrefab;
 
     int selectedSlot = -1;
@@ -22,6 +23,23 @@ public class InventoryManager : MonoBehaviour
             int newValue = selectedSlot + (int)(scroll / Mathf.Abs(scroll));
             if (newValue < 0)
             {
+                newValue = weaponSlots.Length - 1;
+            }
+            else if (newValue >= weaponSlots.Length)
+            {
+                newValue = 0;
+            }
+            ChangeSelectedSlot(newValue);
+        }
+       
+    }
+    /*
+        float scroll = Input.GetAxis("Mouse ScrollWheel");
+        if (scroll != 0) 
+        {
+            int newValue = selectedSlot + (int)(scroll / Mathf.Abs(scroll));
+            if (newValue < 0)
+            {
                 newValue = 2;
             }
             else if (newValue >= 3)
@@ -30,31 +48,15 @@ public class InventoryManager : MonoBehaviour
             }
             ChangeSelectedSlot(newValue);
         }
-    }
-    /*
-        float scroll = Input.GetAxis("Mouse ScrollWheel");
-            if (scroll != 0) // Seleccion con el scroll.
-            {
-                int newValue = selectedSlot + (int)(scroll / Mathf.Abs(scroll));
-                if (newValue < 0)
-                {
-                    newValue = inventorySlots.Length - 1;
-                }
-                else if (newValue >= inventorySlots.Length)
-                {
-                    newValue = 0;
-                }
-                ChangeSelectedSlot(newValue);
-            }
     */
     void ChangeSelectedSlot(int newValue)
     {
         if (selectedSlot >= 0)
         {
-            inventorySlots[selectedSlot].Deselect();
+            weaponSlots[selectedSlot].Deselect();
         }
 
-        inventorySlots[newValue].Select();
+        weaponSlots[newValue].Select();
         selectedSlot = newValue;
     }
 
@@ -75,6 +77,19 @@ public class InventoryManager : MonoBehaviour
                     itemInSlot.RefreshCount();
                 }
             }
+        }
+
+        return null;
+    }
+    public Weapon GetEquipedWeapon(bool use)
+    {
+        InventorySlot slot = weaponSlots[selectedSlot];
+        InventoryItem itemInSlot = slot.GetComponentInChildren<InventoryItem>();
+        if (itemInSlot != null)
+        {
+            Weapon weapon = itemInSlot.weapon;
+
+            return weapon;
         }
 
         return null;
@@ -116,5 +131,43 @@ public class InventoryManager : MonoBehaviour
         GameObject newItemGO = Instantiate(inventoryItemPrefab, slot.transform);
         InventoryItem inventoryItem = newItemGO.GetComponent<InventoryItem>();
         inventoryItem.InitializeItem(item);
+    }
+
+    public bool AddWeapon(Weapon weapon)
+    {
+        for (int i = 0; i < inventorySlots.Length; i++)
+        {
+            InventorySlot slot = inventorySlots[i];
+            InventoryItem itemInSlot = slot.GetComponentInChildren<InventoryItem>();
+            if (itemInSlot != null &&
+                itemInSlot.weapon.Equals(weapon) &&
+                itemInSlot.count < maxStackedItems &&
+                itemInSlot.weapon.stackable == true)
+            {
+                itemInSlot.count++;
+                itemInSlot.RefreshCount();
+                return true;
+            }
+        }
+
+        for (int i = 0; i < inventorySlots.Length; i++)
+        {
+            InventorySlot slot = inventorySlots[i];
+            InventoryItem itemInSlot = slot.GetComponentInChildren<InventoryItem>();
+            if (itemInSlot == null)
+            {
+                SpawnNewWeapon(weapon, slot);
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    void SpawnNewWeapon(Weapon weapon, InventorySlot slot)
+    {
+        GameObject newItemGO = Instantiate(inventoryItemPrefab, slot.transform);
+        InventoryItem inventoryItem = newItemGO.GetComponent<InventoryItem>();
+        inventoryItem.InitializeWeapon(weapon);
     }
 }

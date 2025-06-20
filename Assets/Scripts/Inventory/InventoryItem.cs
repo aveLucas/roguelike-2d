@@ -14,6 +14,7 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     public Transform canvasTransform;
 
     [HideInInspector] public Item item;
+    [HideInInspector] public Weapon weapon;
     [HideInInspector] public int count = 1;
     [HideInInspector] public Transform parentAfterDrag;
 
@@ -21,6 +22,14 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     {
         item = newItem;
         image.sprite = newItem.image;
+        canvasTransform = GameObject.Find("PlayerUI").transform;
+        RefreshCount();
+    }
+
+    public void InitializeWeapon(Weapon newWeapon)
+    {
+        weapon = newWeapon;
+        image.sprite = newWeapon.image;
         canvasTransform = GameObject.Find("PlayerUI").transform;
         RefreshCount();
     }

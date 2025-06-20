@@ -2,26 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Scriptable Object/Item")]
-public class Item : ScriptableObject
+[CreateAssetMenu(menuName = "Scriptable Object/Weapon")]
+public class Weapon : ScriptableObject
 {
 
     [Header("Only Gameplay")]
-    public ItemType type;
+    public ItemType itemType;
+    public WeaponType weaponType;
     public ActionType actionType;
-    public Vector2Int range = new Vector2Int(5, 4);
+    public float damage;
 
     [Header("Only UI")]
-    public bool stackable = true;
+    public bool stackable = false;
 
     [Header("Both")]
     public Sprite image;
 
     public override bool Equals(object obj)
     {
-        if (obj is Item otherItem)
+        if (obj is Weapon otherWeapon)
         {
-            return name == otherItem.name;
+            return name == otherWeapon.name;
         }
         return false;
     }
@@ -32,14 +33,8 @@ public class Item : ScriptableObject
     }
 }
 
-public enum ItemType
+public enum WeaponType
 {
-    Weapon,
-    Food
-}
-
-public enum ActionType
-{
-    Attack,
-    Eat
+    Sword
+    
 }

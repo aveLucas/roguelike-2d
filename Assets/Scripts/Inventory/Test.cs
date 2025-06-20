@@ -6,10 +6,12 @@ public class Test : MonoBehaviour
 {
     public InventoryManager inventoryManager;
     public Item[] itemsToPickup;
+    public Weapon[] weaponsToPickup;
 
     public void PickUpItem(int id)
     {
-        inventoryManager.AddItem(itemsToPickup[id]);
+        //inventoryManager.AddItem(itemsToPickup[id]);
+        inventoryManager.AddWeapon(weaponsToPickup[id]);
     }
 
     public void GetSelectedItem()

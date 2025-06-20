@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     public Transform spawnPosition;
     public float[] spawnLoc = { 2f, -2.4f, 0f};
 
+    public PlayerMeleeCombat playerMeleeCombat;
 
     [Header("Windows")]
     public GameObject invWindow;
@@ -19,8 +20,11 @@ public class GameManager : MonoBehaviour
 
     public Animator invWindowAnimator;
 
+
+
     void Start()
     {
+        playerMeleeCombat = GameObject.FindAnyObjectByType<PlayerMeleeCombat>();
         spawnPosition.position = new Vector3(spawnLoc[0], spawnLoc[1], spawnLoc[2]);
 
         invWindow.SetActive(false);
@@ -57,11 +61,13 @@ public class GameManager : MonoBehaviour
         {
             invWindow.SetActive(true);
             invWindowAnimator.SetTrigger("Open");
+            playerMeleeCombat.canAttack = false;
            
         }
         else
         {
             invWindowAnimator.SetTrigger("Close");
+            playerMeleeCombat.canAttack = true;
         }
     }
 }
